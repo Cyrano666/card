@@ -74,3 +74,10 @@ create policy "upload household photos" on storage.objects for insert to authent
 create policy "read household photos" on storage.objects for select to authenticated using(bucket_id='checkin-photos' and (storage.foldername(name))[1]=my_household()::text);
 
 alter publication supabase_realtime add table tasks,checkins;
+
+-- Internal functions must not be callable by anonymous clients.
+revoke execute on function public.join_household(text,text) from public;
+revoke execute on function public.my_household() from public;
+revoke execute on function public.new_user_profile() from public;
+grant execute on function public.join_household(text,text) to authenticated;
+grant execute on function public.my_household() to authenticated;

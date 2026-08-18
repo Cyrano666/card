@@ -1,5 +1,7 @@
 # 一起打卡
 
+在线地址（部署完成后）：https://cyrano666.github.io/punch-card/
+
 双人使用的打卡应用：她安装 Android APK 打卡，你通过 iPhone 浏览器查看和管理。双方都能创建、编辑任务；照片和备注均可选。
 
 ## 本地预览

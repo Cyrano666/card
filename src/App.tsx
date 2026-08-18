@@ -9,7 +9,7 @@ const demoTasks:Task[]=[{id:'1',household_id:'demo',title:'吃早餐',descriptio
 
 export default function App(){
  const [session,setSession]=useState<Session|null>(null),[profile,setProfile]=useState<Profile|null>(null),[loading,setLoading]=useState(true)
- useEffect(()=>{if(!configured){setLoading(false);return} supabase.auth.getSession().then(({data})=>{setSession(data.session);setLoading(false)});return supabase.auth.onAuthStateChange((_e,s)=>setSession(s)).data.subscription.unsubscribe},[])
+ useEffect(()=>{if(!configured){setLoading(false);return} supabase.auth.getSession().then(({data})=>{setSession(data.session);setLoading(false)});const{data:{subscription}}=supabase.auth.onAuthStateChange((_e,s)=>setSession(s));return()=>{subscription.unsubscribe()}},[])
  useEffect(()=>{if(session)loadProfile();else setProfile(null)},[session])
  async function loadProfile(){const {data}=await supabase.from('profiles').select('*').eq('id',session!.user.id).single();setProfile(data)}
  if(loading)return <Splash/>

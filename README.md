@@ -2,7 +2,7 @@
 
 在线地址（部署完成后）：https://cyrano666.github.io/punch-card/
 
-双人使用的打卡应用：她安装 Android APK 打卡，你通过 iPhone 浏览器查看和管理。双方都能创建、编辑任务；照片和备注均可选。
+双人使用的打卡应用：TA 可安装 Android APK，你也可以用 iPhone 浏览器访问。两个人权限完全相同，都能打卡、查看、创建和编辑任务；照片和备注均可选。
 
 ## 本地预览
 
@@ -19,7 +19,7 @@ npm run dev
 2. 打开 SQL Editor，完整执行 `supabase/schema.sql`。
 3. 在 Authentication → URL Configuration 填写部署后的网页地址；开发时加入 `http://localhost:5173`。
 4. 复制 `.env.example` 为 `.env`，填写项目 URL 和 anon public key。
-5. 先由你注册并选择“创建小家”，把 6 位邀请码发给她；她注册后选择“输入邀请码”。
+5. 任意一人注册并选择“创建我们的打卡空间”，把 6 位邀请码发给 TA；TA 注册后选择“加入已有打卡空间”。
 
 ## 网页部署
 

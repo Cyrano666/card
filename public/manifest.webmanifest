@@ -1,0 +1,18 @@
+{
+  "name": "一起打卡",
+  "short_name": "一起打卡",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f5f7f2",
+  "theme_color": "#f5f7f2",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
+

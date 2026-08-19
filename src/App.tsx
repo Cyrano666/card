@@ -14,7 +14,7 @@ export default function App(){
  const [session,setSession]=useState<Session|null>(null),[profile,setProfile]=useState<Profile|null>(null),[loading,setLoading]=useState(true)
  useEffect(()=>{if(!configured){setLoading(false);return} supabase.auth.getSession().then(({data})=>{setSession(data.session);setLoading(false)});const{data:{subscription}}=supabase.auth.onAuthStateChange((_e,s)=>setSession(s));return()=>{subscription.unsubscribe()}},[])
  useEffect(()=>{if(session)loadProfile();else setProfile(null)},[session])
- async function loadProfile(){const {data}=await supabase.from('profiles').select('*').eq('id',session!.user.id).single();setProfile(data)}
+ async function loadProfile(){const {data}=await supabase.from('profiles').select('*').eq('id',session!.user.id).maybeSingle();if(data){setProfile(data);return}const created=await supabase.from('profiles').insert({id:session!.user.id,display_name:session!.user.user_metadata?.display_name||'新成员',role:'member'}).select().single();setProfile(created.data)}
  if(loading)return <Splash/>
  if(!configured)return <Demo/>
  if(!session)return <Auth/>

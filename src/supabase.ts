@@ -73,7 +73,15 @@ const cloudAuth={
   async getSession(){try{const result=await auth.getSession() as any;sessionCache=result?.data?.session||null;return ok(mapSession(sessionCache))}catch(error){return fail(error)}},
   onAuthStateChange(callback:(event:string,session:any)=>void){return auth.onAuthStateChange((event:any,state:any)=>{const raw=state?.session||state?.data?.session||null;sessionCache=raw;callback(event,mapSession(raw))})},
   async signInWithPassword(params:{email:string;password:string}){try{const result=await auth.signInWithPassword({username:cloudbaseUsername(params.email),password:params.password}) as any;sessionCache=result?.data?.session||null;return {data:{user:mapUser(result?.data?.user),session:mapSession(sessionCache)},error:result?.error||null}}catch(error){return fail(error)}},
-  async signUp(params:{email:string;password:string;options?:{data?:Record<string,any>}}){try{const result=await auth.signUp({username:cloudbaseUsername(params.email),password:params.password}) as any;sessionCache=result?.data?.session||null;return {data:{user:mapUser(result?.data?.user),session:mapSession(sessionCache)},error:result?.error||null}}catch(error){return fail(error)}},
+  async signUp(params:{email:string;password:string;options?:{data?:Record<string,any>}}){try{
+    // The SDK's signUp helper only supports OTP registration. Username /
+    // password registration is available through CloudBase's public auth API.
+    const response=await fetch(`${gateway}/auth/v1/signup`,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json',...(publishableKey?{apikey:publishableKey}:{})},body:JSON.stringify({username:cloudbaseUsername(params.email),password:params.password})})
+    const body:any=await response.json().catch(()=>null)
+    if(!response.ok)return fail(asError(body,response.status))
+    const raw=body?.data||body;sessionCache=raw?.session||null
+    return {data:{user:mapUser(raw?.user),session:mapSession(sessionCache)},error:null}
+  }catch(error){return fail(error)}},
   async signOut(){try{await auth.signOut();sessionCache=null}catch{}},
 }
 function storage(bucket:string){const bucketApi=(app as any).storage.from(bucket);return {async upload(path:string,file:File){try{const r=await bucketApi.upload(path,file);return ok({path:r?.data?.path||path,id:r?.data?.id,fullPath:r?.data?.fullPath})}catch(error){return fail(error)}},async createSignedUrl(path:string,expiresIn:number){try{const r=await bucketApi.createSignedUrl(path,expiresIn);return ok({signedUrl:r?.data?.fullSignedURL||r?.data?.signedUrl})}catch(error){return fail(error)}}}}

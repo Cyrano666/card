@@ -77,7 +77,7 @@ Debug APK 适合私下测试；要长期升级，请配置 Android 签名密钥�
 
 ## 微信小程序
 
-小程序适配代码已放在 [`miniprogram/`](miniprogram/)，使用微信原生身份登录并复用 CloudBase PostgreSQL 数据。导入微信开发者工具后，先把 [`miniprogram/project.config.json`](miniprogram/project.config.json) 的 `appid` 替换为真实 AppID，再执行“工具 → 构建 npm”。完整的名称、简介、存储权限和提审前检查清单见 [`docs/wechat-mini-program.md`](docs/wechat-mini-program.md)。
+小程序适配代码已放在 [`miniprogram/`](miniprogram/)，使用微信原生身份登录并复用 CloudBase PostgreSQL 数据；当前配置的 AppID 为 `wxaf6492eaedcec6b2`。导入微信开发者工具后执行“工具 → 构建 npm”。完整的名称、简介、存储权限和提审前检查清单见 [`docs/wechat-mini-program.md`](docs/wechat-mini-program.md)。
 
 ## 常见问题
 

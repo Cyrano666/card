@@ -14,7 +14,7 @@
 
 ## 导入微信开发者工具
 
-1. 将 `miniprogram/project.config.json` 中的 `appid` 从 `touristappid` 替换为你自己的小程序 AppID。
+1. `miniprogram/project.config.json` 已配置小程序 AppID；如在其他电脑导入，请确认它仍为你的真实 AppID。
 2. 在微信开发者工具中导入目录 `miniprogram/`，开发模式选择“小程序”。
 3. 开发者工具中执行“工具 → 构建 npm”，生成 `miniprogram_npm/`，该目录已在 `.gitignore` 中忽略。
 4. 在“云开发”中确认环境 ID 为 `fx-d8gsy0r867fcba5ca`（地域：上海），并检查 PostgreSQL 表、RLS 权限和云存储权限。

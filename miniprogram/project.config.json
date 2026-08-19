@@ -1,0 +1,18 @@
+{
+  "description": "一起打卡双人小屋微信小程序",
+  "appid": "touristappid",
+  "projectname": "together-checkin-miniprogram",
+  "miniprogramRoot": "./",
+  "compileType": "miniprogram",
+  "libVersion": "3.8.8",
+  "setting": {
+    "es6": true,
+    "enhance": true,
+    "postcss": true,
+    "minified": true,
+    "urlCheck": false,
+    "useCompilerPlugins": ["typescript"]
+  },
+  "condition": {}
+}
+

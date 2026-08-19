@@ -7,4 +7,6 @@ android/app/build/
 *.keystore
 .tools/
 *.apk
+miniprogram/node_modules/
+miniprogram/miniprogram_npm/
 

@@ -75,6 +75,10 @@ GitHub Actions 构建：
 
 Debug APK 适合私下测试；要长期升级，请配置 Android 签名密钥并构建 release APK，否则后续版本无法覆盖安装。
 
+## 微信小程序
+
+小程序适配代码已放在 [`miniprogram/`](miniprogram/)，使用微信原生身份登录并复用 CloudBase PostgreSQL 数据。导入微信开发者工具后，先把 [`miniprogram/project.config.json`](miniprogram/project.config.json) 的 `appid` 替换为真实 AppID，再执行“工具 → 构建 npm”。完整的名称、简介、存储权限和提审前检查清单见 [`docs/wechat-mini-program.md`](docs/wechat-mini-program.md)。
+
 ## 常见问题
 
 - **点击登录/创建没有反应**：查看页面底部的错误提示；通常是短信服务未开通、验证码过期、手机号格式不正确，或数据库 SQL 未完整执行。

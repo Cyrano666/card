@@ -1,0 +1,12 @@
+<view class="page people-page">
+  <view wx:if="{{loading}}" class="loading">正在打开你们的小空间…</view>
+  <view wx:elif="{{needsSetup}}" class="empty card">先在“今天”创建或加入打卡空间。</view>
+  <block wx:else>
+    <view class="hero card"><view class="brand-mark">⌁</view><text class="headline">我们的小空间</text><text class="muted">两个人的权限完全相同，都可以打卡、查看和编辑任务。</text><text class="invite-label">邀请码</text><view class="invite">{{invite}}</view><button class="primary" bindtap="copyInvite">复制邀请码</button></view>
+    <view class="profile card"><text class="section-title">当前微信身份</text><text class="profile-name">{{profile.display_name || '新成员'}}</text><text class="task-desc">微信登录由小程序自动完成，无需重复注册手机号。</text></view>
+    <button class="secondary full" bindtap="switchSpace">切换打卡空间</button>
+    <button class="outline full" bindtap="logout">退出登录 / 切换微信</button>
+  </block>
+  <text wx:if="{{message}}" class="message page-message">{{message}}</text>
+</view>
+

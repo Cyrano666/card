@@ -1,0 +1,11 @@
+<view class="page records-page">
+  <view wx:if="{{loading}}" class="loading">正在加载记录…</view>
+  <view wx:elif="{{needsSetup}}" class="empty card">先在“今天”创建或加入打卡空间。</view>
+  <block wx:else>
+    <view class="header-row"><view><text class="eyebrow">最近 30 天</text><text class="headline">每一步都值得记录</text></view></view>
+    <view wx:if="{{!records.length}}" class="empty card">还没有打卡记录，完成第一项任务吧。</view>
+    <view wx:for="{{records}}" wx:key="id" class="record card"><view class="record-top"><text class="task-title">{{item.taskTitle}}</text><text class="record-date">{{item.dateLabel}} {{item.timeLabel}}</text></view><text wx:if="{{item.note}}" class="task-desc">{{item.note}}</text><image wx:if="{{item.photo_url}}" class="record-photo" mode="aspectFill" src="{{item.photo_url}}" /></view>
+  </block>
+  <text wx:if="{{message}}" class="message page-message">{{message}}</text>
+</view>
+

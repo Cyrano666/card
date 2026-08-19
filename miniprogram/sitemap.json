@@ -1,0 +1,9 @@
+{
+  "desc": "一起打卡小程序页面索引",
+  "rules": [
+    { "action": "allow", "page": "pages/index/index" },
+    { "action": "allow", "page": "pages/records/records" },
+    { "action": "allow", "page": "pages/people/people" }
+  ]
+}
+

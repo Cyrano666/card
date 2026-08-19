@@ -1,0 +1,2 @@
+.tabbar{position:fixed;left:0;right:0;bottom:0;height:112rpx;padding-bottom:env(safe-area-inset-bottom);display:flex;align-items:center;justify-content:space-around;background:#fff;border-top:1rpx solid #edf0ed;z-index:20}.tab{flex:1;text-align:center;color:#9aa7a1;font-size:21rpx}.icon{display:block;font-size:38rpx;line-height:42rpx;margin-bottom:6rpx}.active{color:#2d725b;font-weight:600}
+

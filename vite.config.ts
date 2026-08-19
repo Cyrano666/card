@@ -9,4 +9,6 @@ const base = process.env.CAPACITOR_BUILD === 'true' || process.env.CDN_BUILD ===
   : process.env.GITHUB_ACTIONS === 'true'
     ? `/${repoName}/`
     : '/'
+// CloudBase Console 安全域名需要包含本地开发地址：localhost:5173。
 export default defineConfig({ base, plugins:[react()], server:{host:true}, build:{outDir:'dist'} })
+

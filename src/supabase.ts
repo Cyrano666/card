@@ -71,7 +71,7 @@ function cloudbaseUsername(identifier:string){
 }
 const cloudAuth={
   async getSession(){try{const result=await auth.getSession() as any;sessionCache=result?.data?.session||null;return ok(mapSession(sessionCache))}catch(error){return fail(error)}},
-  onAuthStateChange(callback:(event:string,session:any)=>void){return auth.onAuthStateChange((event:any,state:any)=>{const raw=state?.session||state?.data?.session||null;sessionCache=raw;callback(event,mapSession(raw))})},
+  onAuthStateChange(callback:(event:string,session:any)=>void){return auth.onAuthStateChange((event:any,state:any)=>{const raw=state?.session||state?.data?.session||(state?.access_token?state:null);sessionCache=raw;callback(event,mapSession(raw))})},
   async signInWithPassword(params:{email:string;password:string}){try{const result=await auth.signInWithPassword({username:cloudbaseUsername(params.email),password:params.password}) as any;sessionCache=result?.data?.session||null;return {data:{user:mapUser(result?.data?.user),session:mapSession(sessionCache)},error:result?.error||null}}catch(error){return fail(error)}},
   async signUp(params:{email:string;password:string;options?:{data?:Record<string,any>}}){try{
     // The SDK's signUp helper only supports OTP registration. Username /

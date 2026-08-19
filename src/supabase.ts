@@ -63,25 +63,14 @@ function mapSession(raw:any){return raw?{...raw,user:mapUser(raw.user)}:null}
 // The free CloudBase environment only allows username/password login. Keep
 // the friendly email-shaped input in the UI by deterministically mapping it
 // to a valid CloudBase username; the same input always maps to the same user.
-function cloudbaseUsername(identifier:string){
-  const value=identifier.trim().toLowerCase()
-  if(/^[a-z][a-z0-9_-]{5,24}$/.test(value))return value
-  const local=value.split('@')[0].replace(/[^a-z0-9_-]/g,'')
-  return (`u${local}user`).replace(/[^a-z0-9_-]/g,'').slice(0,25).padEnd(6,'0')
-}
+async function finishAuthState(state:any){const current=await auth.getSession() as any;sessionCache=current?.data?.session||null;const user=sessionCache?.user||state?.user||null;return {data:{user:mapUser(user),session:mapSession(sessionCache)},error:null}}
 const cloudAuth={
   async getSession(){try{const result=await auth.getSession() as any;sessionCache=result?.data?.session||null;return ok(mapSession(sessionCache))}catch(error){return fail(error)}},
   onAuthStateChange(callback:(event:string,session:any)=>void){return auth.onAuthStateChange((event:any,state:any)=>{const raw=state?.session||state?.data?.session||(state?.access_token?state:null);sessionCache=raw;callback(event,mapSession(raw))})},
-  async signInWithPassword(params:{email:string;password:string}){try{const result=await auth.signInWithPassword({username:cloudbaseUsername(params.email),password:params.password}) as any;sessionCache=result?.data?.session||null;return {data:{user:mapUser(result?.data?.user),session:mapSession(sessionCache)},error:result?.error||null}}catch(error){return fail(error)}},
-  async signUp(params:{email:string;password:string;options?:{data?:Record<string,any>}}){try{
-    // The SDK's signUp helper only supports OTP registration. Username /
-    // password registration is available through CloudBase's public auth API.
-    const response=await fetch(`${gateway}/auth/v1/signup`,{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json',...(publishableKey?{apikey:publishableKey}:{})},body:JSON.stringify({username:cloudbaseUsername(params.email),password:params.password})})
-    const body:any=await response.json().catch(()=>null)
-    if(!response.ok)return fail(asError(body,response.status))
-    const raw=body?.data||body;sessionCache=raw?.session||null
-    return {data:{user:mapUser(raw?.user),session:mapSession(sessionCache)},error:null}
-  }catch(error){return fail(error)}},
+  async sendPhoneCode(phone:string){try{await (auth as any).sendPhoneCode(phone);return ok(true)}catch(error){return fail(error)}},
+  async signUpWithPhoneCode(params:{phone:string;code:string;password:string}){try{const state=await (auth as any).signUpWithPhoneCode(params.phone,params.code,params.password);return finishAuthState(state)}catch(error){return fail(error)}},
+  async signInWithPhonePassword(params:{phone:string;password:string}){try{const state=await (auth as any).signInWithPhoneCodeOrPassword({phoneNumber:params.phone,password:params.password});return finishAuthState(state)}catch(error){return fail(error)}},
+  async resetPasswordWithPhoneCode(params:{phone:string;code:string;password:string}){try{const state=await (auth as any).forceResetPwdByPhoneCode({phoneNumber:params.phone,phoneCode:params.code,password:params.password});return finishAuthState(state)}catch(error){return fail(error)}},
   async signOut(){try{await auth.signOut();sessionCache=null}catch{}},
 }
 function storage(bucket:string){const bucketApi=(app as any).storage.from(bucket);return {async upload(path:string,file:File){try{const r=await bucketApi.upload(path,file);return ok({path:r?.data?.path||path,id:r?.data?.id,fullPath:r?.data?.fullPath})}catch(error){return fail(error)}},async createSignedUrl(path:string,expiresIn:number){try{const r=await bucketApi.createSignedUrl(path,expiresIn);return ok({signedUrl:r?.data?.fullSignedURL||r?.data?.signedUrl})}catch(error){return fail(error)}}}}

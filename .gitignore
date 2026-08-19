@@ -5,3 +5,6 @@ android/.gradle/
 android/app/build/
 *.jks
 *.keystore
+.tools/
+*.apk
+

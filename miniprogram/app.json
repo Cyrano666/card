@@ -1,0 +1,29 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/records/records",
+    "pages/people/people"
+  ],
+  "window": {
+    "navigationBarTitleText": "一起打卡",
+    "navigationBarBackgroundColor": "#f5f7f2",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f5f7f2",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#9aa7a1",
+    "selectedColor": "#2d725b",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "white",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "今天" },
+      { "pagePath": "pages/records/records", "text": "记录" },
+      { "pagePath": "pages/people/people", "text": "我们" }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
+

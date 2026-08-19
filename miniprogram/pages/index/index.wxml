@@ -1,0 +1,45 @@
+<view class="page">
+  <view wx:if="{{loading}}" class="loading">正在打开你们的小空间…</view>
+
+  <view wx:elif="{{needsSetup}}" class="setup-card card">
+    <view class="brand-mark">✓</view>
+    <text class="title">把两个人连接起来</text>
+    <text class="muted">微信身份会自动登录，不需要再注册手机号。</text>
+    <view wx:if="{{!setupMode}}" class="stack">
+      <button class="primary" data-mode="create" bindtap="selectSetup">创建我们的打卡空间</button>
+      <button class="secondary" data-mode="join" bindtap="selectSetup">加入已有打卡空间</button>
+    </view>
+    <view wx:else class="stack">
+      <input class="input" maxlength="30" placeholder="你的称呼" value="{{displayName}}" bindinput="inputName" />
+      <input wx:if="{{setupMode==='join'}}" class="input code-input" maxlength="6" placeholder="6 位邀请码" value="{{joinCode}}" bindinput="inputCode" />
+      <button class="primary" loading="{{busy}}" disabled="{{busy}}" bindtap="handleSetupAction">{{busy?'处理中…':setupMode==='create'?'创建并获取邀请码':'加入空间'}}</button>
+      <button class="link" bindtap="selectSetup" data-mode="">返回</button>
+    </view>
+    <text wx:if="{{message}}" class="message">{{message}}</text>
+  </view>
+
+  <block wx:elif="{{profile}}">
+    <view class="header-row">
+      <view><text class="eyebrow">{{displayName || '今天'}}</text><text class="headline">今天也要好好生活</text></view>
+      <text class="date">{{invite ? '共享小空间' : '加载中'}}</text>
+    </view>
+    <view class="progress card">
+      <view><text class="small-light">今日完成</text><view class="progress-number">{{doneCount}}<text>/{{tasks.length}}</text></view><text class="small-light">{{doneCount===tasks.length && tasks.length ? '全部完成，真棒！' : '每完成一件，今天就更闪亮一点'}}</text></view>
+      <view class="ring" style="background: conic-gradient(#2d725b {{percent}}%, #eaf1ed {{percent}}% 100%);"><text>{{percent}}%</text></view>
+    </view>
+    <view class="section-row"><text class="section-title">今日打卡</text><button class="add-button" bindtap="openEditor">＋ 新建</button></view>
+    <view wx:if="{{!tasks.length}}" class="empty card">还没有任务，先创建一个吧。</view>
+    <view wx:for="{{tasks}}" wx:key="id" class="task card {{item.done?'done':''}}">
+      <button class="check {{item.done?'checked':''}}" data-id="{{item.id}}" bindtap="handleTaskTap">{{item.done?'✓':''}}</button>
+      <view class="task-content" data-id="{{item.id}}" bindtap="handleTaskTap"><text class="task-title">{{item.title}}</text><text class="task-desc">{{item.summary}}</text></view>
+      <button class="more" data-id="{{item.id}}" bindtap="openEditor">›</button>
+    </view>
+  </block>
+
+  <view wx:if="{{message && profile}}" class="message page-message">{{message}}</view>
+  <view wx:if="{{celebration}}" class="celebration"><view class="burst">✓</view><text class="celebration-title">打卡完成！</text><text class="muted">{{celebration}}</text></view>
+
+  <view wx:if="{{showCheckin}}" class="overlay"><view class="sheet"><button class="close" bindtap="closeCheckin">×</button><text class="sheet-title">完成「{{selectedTask.title}}」</text><textarea class="textarea" maxlength="500" placeholder="想说点什么？（可选）" value="{{note}}" bindinput="inputNote"></textarea><button class="photo-button" bindtap="choosePhoto">{{photoPath ? '已选择照片' : '添加照片（可选）'}}</button><button class="primary" loading="{{busy}}" disabled="{{busy}}" bindtap="confirmCheckin">{{busy?'保存中…':'确认打卡'}}</button></view></view>
+  <view wx:if="{{showEditor}}" class="overlay"><view class="sheet"><button class="close" bindtap="closeEditor">×</button><text class="sheet-title">{{editingId?'编辑任务':'新建打卡任务'}}</text><input class="input" maxlength="60" placeholder="例如：吃早餐" value="{{title}}" bindinput="inputTitle"/><input class="input" maxlength="200" placeholder="说明（可选）" value="{{description}}" bindinput="inputDescription"/><picker mode="time" value="{{dueTime}}" bindchange="inputDueTime"><view class="picker">提醒时间：{{dueTime || '不设置'}}</view></picker><button class="primary" loading="{{busy}}" disabled="{{busy}}" bindtap="saveTask">保存</button><button wx:if="{{editingId}}" class="danger" bindtap="deleteTask">删除任务</button></view></view>
+</view>
+

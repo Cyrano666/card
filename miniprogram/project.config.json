@@ -17,8 +17,14 @@
     "compileWorklet": false,
     "uglifyFileName": false,
     "uploadWithSourceMap": true,
-    "packNpmManually": false,
-    "packNpmRelationList": [],
+    "nodeModules": true,
+    "packNpmManually": true,
+    "packNpmRelationList": [
+      {
+        "packageJsonPath": "./package.json",
+        "miniprogramNpmDistDir": "./miniprogram_npm"
+      }
+    ],
     "minifyWXSS": true,
     "minifyWXML": true,
     "localPlugins": false,
@@ -38,3 +44,4 @@
   },
   "editorSetting": {}
 }
+

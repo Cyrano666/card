@@ -19,7 +19,7 @@ npm run dev
 
 1. 在腾讯云 CloudBase 创建 PostgreSQL 模式环境。
 2. 在 CloudBase PostgreSQL SQL 编辑器完整执行 `supabase/cloudbase-pg-schema.sql`。
-3. 在身份认证中开启邮箱/密码登录，并将网页域名加入安全域名。
+3. 在身份认证中开启用户名/密码登录，并将网页域名加入安全域名。
 4. 复制 `.env.example` 为 `.env`，填写 CloudBase 环境 ID、地域和（可选）Publishable Key。
 5. 任意一人注册并选择“创建我们的打卡空间”，把 6 位邀请码发给 TA；TA 注册后选择“加入已有打卡空间”。
 
